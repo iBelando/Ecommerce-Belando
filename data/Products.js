@@ -1,4 +1,4 @@
-export const PRODUCTS = [
+export const Products = [
   {
     id: 1,
     category: 1,
@@ -59,28 +59,28 @@ export const PRODUCTS = [
     id: 9,
     category: 1,
     description: "Product 9",
-    price: 80.63,
+    price: 81.63,
     image: "https://picsum.photos/200/300",
   },
   {
     id: 10,
     category: 2,
     description: "Product 10",
-    price: 80.63,
+    price: 82.63,
     image: "https://picsum.photos/200/300",
   },
   {
     id: 11,
     category: 3,
     description: "Product 11",
-    price: 80.63,
+    price: 83.63,
     image: "https://picsum.photos/200/300",
   },
   {
     id: 12,
     category: 4,
     description: "Product 12",
-    price: 80.63,
+    price: 84.63,
     image: "https://picsum.photos/200/300",
   },
 ];

@@ -1,10 +1,28 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  useWindowDimensions,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React from "react";
 import { colors } from "../../styles/Colors";
 
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
 const CategoryItem = ({ category }) => {
+  const { width, height } = useWindowDimensions();
+
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        ...styles.container,
+        maxWidth: width * 0.44,
+        maxHeight: width * 0.44,
+        margin: width * 0.03,
+      }}
+    >
       <Text style={styles.text}>{category.category}</Text>
     </View>
   );
@@ -12,18 +30,15 @@ const CategoryItem = ({ category }) => {
 
 export default CategoryItem;
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
-    width: 170,
-    height: 170,
+    width: 3000,
+    height: windowWidth * 0.44,
     justifyContent: "flex-end",
     alignItems: "flex-end",
-    padding: 15,
+    padding: 8,
     backgroundColor: colors.terciario,
-    margin: 15,
     borderRadius: 10,
-
-    //Sombras
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -37,4 +52,4 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: "RubikGlitch",
   },
-});
+};

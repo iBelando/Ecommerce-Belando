@@ -1,10 +1,26 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  useWindowDimensions,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React from "react";
 
 const ProductItem = ({ product }) => {
+  const { width, height } = useWindowDimensions();
+
   return (
     <View>
-      <Image source={{ uri: product.image }} style={styles.image} />
+      <Image
+        source={{ uri: product.image }}
+        style={{
+          ...styles.image,
+          width: width * 0.8,
+          height: width * 0.8,
+          marginHorizontal: width * 0.08,
+        }}
+      />
       <Text style={styles.text}>{product.description}</Text>
     </View>
   );
@@ -12,12 +28,9 @@ const ProductItem = ({ product }) => {
 
 export default ProductItem;
 
-const styles = StyleSheet.create({
+const styles = {
   image: {
-    width: 300,
-    height: 300,
     borderRadius: 10,
-    marginHorizontal: 15, //para que no se vea encimada a los productos la barra de navegacion vertical
     borderWidth: 2,
     borderColor: "black",
   },
@@ -28,4 +41,4 @@ const styles = StyleSheet.create({
     marginBottom: 35,
     fontFamily: "NunitoBlackItalic",
   },
-});
+};

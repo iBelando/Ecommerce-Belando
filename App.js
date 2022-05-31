@@ -1,14 +1,10 @@
-import { StyleSheet, View } from "react-native";
-import { useState } from "react";
-import CategoriesScreen from "./screens/CategoriesScreen";
-import ProductsScreen from "./screens/ProductsScreen";
+import { ActivityIndicator } from "react-native";
 import { useFonts } from "expo-font";
+import MainNavigator from "./navigation";
+import store from "./store";
+import { Provider } from "react-redux";
 
 export default function App() {
-  const [categorySelected, setCategorySelected] = useState(null);
-  const handleCategory = (category) => {
-    setCategorySelected(category);
-  };
   const [loaded] = useFonts({
     DancingScriptBold: require("./assets/Fonts/DancingScript/static/DancingScript-Bold.ttf"),
     FjallaOneRegular: require("./assets/Fonts/Fjalla_One/FjallaOne-Regular.ttf"),
@@ -19,27 +15,12 @@ export default function App() {
   });
 
   if (!loaded) {
-    return null;
+    return <ActivityIndicator />;
   }
 
   return (
-    <View style={styles.container}>
-      {categorySelected ? (
-        <ProductsScreen
-          category={categorySelected}
-          handleCategory={handleCategory}
-        />
-      ) : (
-        <CategoriesScreen handleCategory={handleCategory} />
-      )}
-    </View>
+    <Provider store={store}>
+      <MainNavigator />
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    //    justifyContent: 'center',
-  },
-});

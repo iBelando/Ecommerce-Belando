@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { colors } from "../styles/Colors";
 
@@ -12,16 +12,15 @@ const Searcher = ({ children, additionalStyles }) => {
 
 export default Searcher;
 
-const styles = StyleSheet.create({
+const styles = {
   searcherContainer: {
     flexDirection: "row",
     backgroundColor: colors.secundario,
-    width: "93%",
-    marginVertical: 20,
+    width: "95%",
+    marginVertical: 8,
     borderRadius: 18,
     alignItems: "center",
-
-    //Sombras
+    paddingStart: 8,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -31,4 +30,4 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-});
+};
