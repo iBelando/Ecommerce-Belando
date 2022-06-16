@@ -1,5 +1,5 @@
 import { StyleSheet, View, FlatList } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useSelector } from "react";
 import OrderItem from "../components/OrderItem";
 import Orders from "../data/Orders";
 import { useDispatch } from "react-redux";
@@ -8,9 +8,12 @@ import { getOrders } from "../features/orders";
 const renderItem = ({ item }) => <OrderItem item={item} />;
 
 const OrderScreen = () => {
+  const { orders } = useSelector((state) => state.orders.value);
+  const { user } = useSelector((state) => state.auth.value);
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getOrders);
+    dispatch(getOrders(user.email));
   }, []);
 
   return (

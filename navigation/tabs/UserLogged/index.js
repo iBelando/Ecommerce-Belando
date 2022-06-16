@@ -3,6 +3,7 @@ import React from "react";
 import { colors } from "../../../styles/Colors";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import LocationStack from "../../stacks/Locations";
 
 import ShopNavigator from "../../stacks/Shop";
 
@@ -63,6 +64,24 @@ const TabNavigatorLogged = () => {
                   color="black"
                 />
                 <Text>Ordenes</Text>
+              </View>
+            );
+          },
+        }}
+      />
+      <BottomTabs.Screen
+        name="LocationTab"
+        component={LocationStack}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={styles.item}>
+                <MaterialCommunityIcons
+                  name="map-marker-radius"
+                  size={24}
+                  color="black"
+                />
+                <Text>Direcciones</Text>
               </View>
             );
           },

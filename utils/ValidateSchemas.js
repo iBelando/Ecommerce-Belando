@@ -13,8 +13,8 @@ export const schemaEmail = Joi.object({
 export const schemaPassword = Joi.object({
   password: Joi.string().empty().min(6).max(20).alphanum().messages({
     "string.empty": "Campo obligatorio",
-    "string.min": "el password debe tener minimo 6 caracteres",
-    "string.max": "el password admite 20 caracteres maximo",
-    "string.alphanum": "debe contener caracteres alfanumericos",
+    "string.min": "El password debe tener minimo 6 caracteres",
+    "string.max": "El password admite 20 caracteres maximo",
+    "string.alphanum": "Solo admite caracteres alfanumericos",
   }),
 });

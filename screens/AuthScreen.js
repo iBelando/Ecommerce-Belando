@@ -1,31 +1,28 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity, Button, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import Input from "../components/Input";
 import { useDispatch } from "react-redux";
-import { signUp } from "../features/Auth";
+import { signUp, login } from "../features/Auth";
 import { colors } from "../styles/Colors";
 import { schemaEmail, schemaPassword } from "../utils/ValidateSchemas";
+import loginValidationSchema from "../utils/ValidationYup";
+import { Formik } from "formik";
 
 const LoginScreen = () => {
   const [registroVista, setRegistroVista] = useState(false);
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const dispatch = useDispatch();
 
-  const handleSignup = () => {
-    const validateEmail = schemaEmail.validate({ email: email });
-    const validatePassword = schemaPassword.validate({ password: password });
-    console.log(validateEmail);
-    console.log(validatePassword);
-
-    if (validateEmail.error) setEmailError(validateEmail.error.message);
-    else setEmailError("");
-
-    if (password === confirmPassword) {
-      console.log("Se registra!");
-      dispatch(signUp({ email: email, password: password }));
+  const handleSubmit = (values) => {
+    if (registroVista) {
+      if (values.password === values.confirmPassword) {
+        console.log("Se registra!");
+        dispatch(signUp({ email: values.email, password: values.password }));
+      } else {
+        setConfirmPasswordError("Los passwords deben coincidir");
+      }
+    } else {
+      dispatch(login({ email: values.email, password: values.password }));
     }
   };
 
@@ -33,26 +30,65 @@ const LoginScreen = () => {
     <View style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>{registroVista ? "Registro" : "Login"}</Text>
-        <Input
-          label="Email"
-          password={false}
-          onChange={setEmail}
-          value={email}
-          error={emailError}
-        />
-        <Input
-          label="Password"
-          password={true}
-          onChange={setPassword}
-          value={password}
-        />
-        <Input
-          label="Confirm password"
-          password={true}
-          onChange={setConfirmPassword}
-          value={confirmPassword}
-        />
-        <Button title="Signup" onPress={handleSignup} />
+        <Formik
+          onSubmit={handleSubmit}
+          initialValues={{ email: "", password: "", confirmPassword: "" }}
+          validationSchema={loginValidationSchema}
+          validateOnChange={false}
+          validateOnBlur={false}
+        >
+          {({ handleChange, errors, handleSubmit, values, handleBlur }) => (
+            <>
+              <Input
+                label="Email"
+                password={false}
+                onChange={handleChange("email")}
+                value={values.email}
+                error={errors.email}
+                onBlur={handleBlur("email")}
+              />
+              <Input
+                label="Password"
+                password={true}
+                onChange={handleChange("password")}
+                value={values.password}
+                error={errors.password}
+                onBlur={handleBlur("password")}
+              />
+              {registroVista && (
+                <Input
+                  label="Confirm password"
+                  password={true}
+                  onChange={handleChange("confirmPassword")}
+                  value={values.confirmPassword}
+                  onBlur={handleBlur("confirmPassword")}
+                  error={confirmPasswordError}
+                />
+              )}
+              {registroVista ? (
+                <Button title="Signup" onPress={handleSubmit} />
+              ) : (
+                <Button title="Login" onPress={handleSubmit} />
+              )}
+              <View style={styles.textContainer}>
+                {registroVista ? (
+                  <TouchableOpacity onPress={() => setRegistroVista(false)}>
+                    <Text>
+                      ¿Ya tienes cuenta? <Text style={styles.link}>Login</Text>
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity onPress={() => setRegistroVista(true)}>
+                    <Text>
+                      ¿No tienes cuenta?{" "}
+                      <Text style={styles.link}>¡Crea una!</Text>
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </>
+          )}
+        </Formik>
       </View>
     </View>
   );
