@@ -12,10 +12,15 @@ import Header from "../components/Header";
 import CategoryItem from "../components/List/CategoryItem";
 import ListIndex from "../components/List/ListIndex";
 import { PRODUCTS } from "../data/Products";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../Features/Cart";
 
 const DetailScreen = ({ route, navigation }) => {
   const { productSelected } = useSelector((state) => state.products.value);
+  const dispatch = useDispatch();
+  const handleAdd = (id) => {
+    dispatch(addItem({ id: id }));
+  };
   const { width, height } = useWindowDimensions();
   const [orientation, setOrientation] = useState("vertical");
 
@@ -46,6 +51,10 @@ const DetailScreen = ({ route, navigation }) => {
             <Text style={styles.textPrice}>$ {productSelected?.price}</Text>
             <Text>{productSelected?.description}</Text>
             <Button onPress={() => navigation.goBack()} title="Go Back" />
+            <Button
+              onPress={() => handleAdd(productSelected.id)}
+              title=" Add to Cart"
+            />
           </View>
         </View>
       </>

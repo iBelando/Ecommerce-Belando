@@ -1,12 +1,16 @@
 import { StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import TabNavigatorLogged from "./tabs/UserLogged";
+import AuthStack from "./stacks/Auth";
+import { useSelector } from "react-redux";
 
 const MainNavigator = () => {
+  const { user } = useSelector((state) => state.auth.value);
+
   return (
     <NavigationContainer>
-      <TabNavigatorLogged />
+      {user.email ? <TabNavigatorLogged /> : <AuthStack />}
     </NavigationContainer>
   );
 };
